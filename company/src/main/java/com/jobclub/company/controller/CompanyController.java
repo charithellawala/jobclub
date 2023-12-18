@@ -1,5 +1,6 @@
 package com.jobclub.company.controller;
 
+import com.jobclub.company.client.JobPostClient;
 import com.jobclub.company.model.Company;
 import com.jobclub.company.service.CompanyService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 //import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
+//import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,6 +28,9 @@ public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
+
+    //@Autowired
+    private JobPostClient jobPostClient;
 
     @GetMapping
     public List<Company> getAllCompanies() {
@@ -70,6 +74,17 @@ public class CompanyController {
         }
     }
 
+
+    @GetMapping("/with-jobPosts")
+    public List<Company> findAllWithAllPostedJobs() {
+       // LOGGER.info("available vacancy jobs");
+        List<Company> companies
+                = companyService.getAllCompanies();
+        companies.forEach(company ->
+                company.setJobVacancy(
+                        jobPostClient.findByCompany(company.getId())));
+        return  companies;
+    }
 
 
 }
