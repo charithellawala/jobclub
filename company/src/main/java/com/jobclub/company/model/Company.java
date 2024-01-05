@@ -20,10 +20,7 @@ public class Company {
     private String location;
     private List<JobPost> jobVacancy = new ArrayList<>();
 
-   // private JobPost employee_title;
+    // private JobPost employee_title;
 
 
-
-
-    
 }

@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
     private CompanyDao companyDao;
+
     @Override
     public List<Company> getAllCompanies() {
         return companyDao.getAllCompanies();

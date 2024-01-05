@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-//@Configuration
+@Configuration
 public class WebClientConfig {
 
     @Autowired
@@ -26,11 +26,10 @@ public class WebClientConfig {
 
     @Bean
     public JobPostClient jobPostClient() {
-        HttpServiceProxyFactory httpServiceProxyFactory;
-//                = HttpServiceProxyFactory
-//                .builder(WebClientAdapter.forClient(jobPostWebClient()))
-//               .build();
-        //return httpServiceProxyFactory.createClient(JobPostClient.class);
-        return null;
+        HttpServiceProxyFactory httpServiceProxyFactory
+                = HttpServiceProxyFactory
+                .builder(WebClientAdapter.forClient(jobPostWebClient()))
+               .build();
+        return httpServiceProxyFactory.createClient(JobPostClient.class);
     }
 }

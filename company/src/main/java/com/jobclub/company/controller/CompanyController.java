@@ -3,16 +3,13 @@ package com.jobclub.company.controller;
 import com.jobclub.company.client.JobPostClient;
 import com.jobclub.company.model.Company;
 import com.jobclub.company.service.CompanyService;
-import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,20 +17,17 @@ import java.util.Optional;
 @RequestMapping("/api/company")
 public class CompanyController {
 
-//    @ApiIgnore
-//    @RequestMapping(value="/")
-//    public void redirect(HttpServletResponse response) throws IOException {
-//        response.sendRedirect("/swagger-ui.html");
-//    }
-
     @Autowired
     private CompanyService companyService;
-
-    //@Autowired
+    @Autowired
     private JobPostClient jobPostClient;
+
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(CompanyController.class);
 
     @GetMapping
     public List<Company> getAllCompanies() {
+        LOGGER.info("All registered companies");
         return companyService.getAllCompanies();
     }
 
@@ -77,13 +71,13 @@ public class CompanyController {
 
     @GetMapping("/with-jobPosts")
     public List<Company> findAllWithAllPostedJobs() {
-       // LOGGER.info("available vacancy jobs");
+        LOGGER.info("available vacancy jobs under companies");
         List<Company> companies
                 = companyService.getAllCompanies();
         companies.forEach(company ->
                 company.setJobVacancy(
                         jobPostClient.findByCompany(company.getId())));
-        return  companies;
+        return companies;
     }
 
 

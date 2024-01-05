@@ -1,10 +1,10 @@
-package com.jobclub.company;
+package com.jobclub.authentication;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CompanyApplicationTests {
+class AuthenticationApplicationTests {
 
     @Test
     void contextLoads() {
