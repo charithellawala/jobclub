@@ -3,8 +3,11 @@ package com.jobclub.authentication.user.auth.AuthenticationResponse;
 import com.jobclub.authentication.user.Role;
 import com.jobclub.authentication.user.User;
 import com.jobclub.authentication.user.UserRepository;
+import com.jobclub.authentication.user.auth.AuthenticationController;
 import com.jobclub.authentication.user.config.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +29,9 @@ public class AuthenticationService {
 
     @Autowired
     private final UserRepository repository;
+
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(AuthenticationService.class);
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
@@ -51,13 +57,10 @@ public class AuthenticationService {
         );
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
+        LOGGER.info("user : "+ user);
         var jwtToken = jwtService.generateToken(user);
-//        var refreshToken = jwtService.generateRefreshToken(user);
-//        revokeAllUserTokens(user);
-//        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                //.refreshToken(refreshToken)
                 .build();
     }
 

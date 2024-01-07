@@ -1,0 +1,15 @@
+<!-- src/app/company-registration/company-registration.component.html -->
+
+<form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+    <label for="companyName">Company Name:</label>
+    <input type="text" id="companyName" formControlName="companyName" />
+  
+    <label for="location">Location:</label>
+    <input type="text" id="location" formControlName="location" />
+  
+    <label for="country">Country:</label>
+    <input type="text" id="country" formControlName="country" />
+  
+    <button type="submit" [disabled]="!companyForm.valid">Register Company</button>
+  </form>
+  
